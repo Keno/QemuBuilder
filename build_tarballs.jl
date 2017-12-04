@@ -17,13 +17,10 @@ info("Building for $(join(triplet.(platforms), ", "))")
 sources = [
     "https://ftp.gnome.org/pub/gnome/sources/glib/2.54/glib-2.54.2.tar.xz" =>
     "bb89e5c5aad33169a8c7f28b45671c7899c12f74caf707737f784d7102758e6c",
-,
     "https://zlib.net/zlib-1.2.11.tar.gz" =>
     "c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1",
-,
     "https://github.com/libffi/libffi.git" =>
     "716bfd83177689e2244c4707bd513003cff92c68",
-,
     "https://github.com/Keno/qemu.git" =>
     "d50ad0140fa674b0553ce63203a3eb9e56472e18",
 ]
@@ -32,11 +29,11 @@ script = raw"""
 cd $WORKSPACE/srcdir
 export PKG_CONFIG_PATH=$DESTDIR/lib/pkgconfig
 export PKG_CONFIG_SYSROOT_DIR=$DESTDIR
+apk add texinfo gettext
 cd zlib-1.2.11/
 ./configure --prefix=/
 make install
 cd ../libffi
-apk add texinfo
 ./autogen.sh 
 ./configure --prefix=/ --host=$target
 make
@@ -58,12 +55,12 @@ curl -OL ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.41.tar.gz
 tar --no-same-owner -xzf pcre-8.41.tar.gz 
 cd pcre-8.41
 ./configure --prefix=/ --host=$target
-make -j40
+make -j4
 make install
 cd ..
 cd glib-2.54.2/
 ./configure --prefix=/ --cache-file=glib.cache --host=$target CPPFLAGS="-I$DESTDIR/include" "LDFLAGS=-L$DESTDIR/lib"
-make -j40
+make -j4
 make install
 curl -OL https://www.cairographics.org/releases/pixman-0.34.0.tar.gz
 tar xof pixman-0.34.0.tar.gz 
@@ -164,7 +161,7 @@ echo '#!/bin/true ' > /usr/bin/SetFile
 echo '#!/bin/true ' > /usr/bin/Rez
 chmod +x /usr/bin/Rez
 chmod +x /usr/bin/SetFile
-make -j40
+make -j4
 make install
 
 """
