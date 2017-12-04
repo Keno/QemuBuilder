@@ -171,5 +171,5 @@ products = prefix -> [
 ]
 
 # Build the given platforms using the given sources
-autobuild(pwd(), "qemu", build_platforms, sources, script, products)
+autobuild(pwd(), "qemu", platforms, sources, script, products)
 
