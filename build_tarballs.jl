@@ -36,7 +36,7 @@ make install
 cd ../libffi
 ./autogen.sh 
 ./configure --prefix=/ --host=$target
-make
+make -j40
 make install
 ./configure --prefix=/ --host=$target
 cd ..
@@ -47,7 +47,7 @@ curl -OL https://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.8.tar.xz
 tar xof gettext-0.19.8.tar.xz 
 cd gettext-0.19.8
 ./configure --prefix=/ --host=$target
-make
+make -j40
 make install
 cd ..
 pwd
@@ -59,14 +59,16 @@ make -j4
 make install
 cd ..
 cd glib-2.54.2/
+cat > glib.cache <<END
+glib_cv_stack_grows=no
+glib_cv_uscore=no
+END
 ./configure --prefix=/ --cache-file=glib.cache --host=$target CPPFLAGS="-I$DESTDIR/include" "LDFLAGS=-L$DESTDIR/lib"
 make -j4
 make install
 curl -OL https://www.cairographics.org/releases/pixman-0.34.0.tar.gz
 tar xof pixman-0.34.0.tar.gz 
 cd pixman-0.34.0
-./configure --prefix=/ --host=$target
-make -j40
 cat > clang.patch <<END
 diff --git a/configure.ac b/configure.ac
 index e833e45..cbebc82 100644
@@ -85,12 +87,12 @@ index e833e45..cbebc82 100644
 2.10.0
 END
 
-patch  < clang.patch 
+patch < clang.patch 
 automake
 ./configure --prefix=/ --host=$target
-make
+make -j40
 make install
-cd ../qemu/
+cd $WORKSPACE/srcdir/qemu/
 cat > osx.patch <<END
 diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
 index f49288f..5b8d6e6 100644
@@ -166,8 +168,8 @@ make install
 
 """
 
-products = prefix -> [
-
+products = prefix -> Product[
+    ExecutableProduct(prefix,"x86_64-softmmu/qemu-system-x86_64")
 ]
 
 # Build the given platforms using the given sources
