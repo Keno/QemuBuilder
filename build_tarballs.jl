@@ -115,6 +115,7 @@ index f49288f..5b8d6e6 100644
  }
 
  static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
+
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
 index daa8519..dea55e4 100644
 --- a/hw/9pfs/9p.c
