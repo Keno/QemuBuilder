@@ -3,7 +3,7 @@ using BinaryBuilder
 # Collection of sources required to build libffi
 sources = [
     "https://github.com/Keno/qemu.git" =>
-    "9db2d6f0b3cc609d40b67560ef0461b1b9a0765a",
+    "2ed3b3c2f2c79208b689673a257ab04a6aa984a3",
 ]
 
 # Bash recipe for building across all platforms
