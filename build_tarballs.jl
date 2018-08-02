@@ -1,5 +1,8 @@
 using BinaryBuilder
 
+name = "Qemu"
+version = v"2.12.50"
+
 # Collection of sources required to build libffi
 sources = [
     "https://github.com/Keno/qemu.git" =>
@@ -47,4 +50,4 @@ dependencies = [
 ]
 
 # Build the tarballs, and possibly a `build.jl` as well.
-build_tarballs(ARGS, "Qemu", sources, script, platforms, products, dependencies)
+build_tarballs(ARGS, name, version, sources, script, platforms, products, dependencies)
